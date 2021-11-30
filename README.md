@@ -3,8 +3,8 @@ Allows modification of player data. To use, run the mod and place the following 
 {
   "BoolData": {
     "fieldName_1": null,
-	"fieldName_2": null,
-	"fieldName_3": null
+    "fieldName_2": null,
+    "fieldName_3": null
   }
 }
 ```

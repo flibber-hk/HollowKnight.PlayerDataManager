@@ -19,7 +19,7 @@ namespace PlayerDataManager
             instance = this;
         }
         
-		public override string GetVersion() => $"0.1 ({GS.BoolData.Count()})";
+        public override string GetVersion() => $"0.1 ({GS.BoolData.Where(x => x.Value.HasValue).Count()}/{GS.BoolData.Count()})";
 
         public override void Initialize()
         {
@@ -65,6 +65,7 @@ namespace PlayerDataManager
                     // Get internal to prevent loop, just in case
                     GS.BoolData[name] = !PlayerData.instance.GetBoolInternal(name);
                 }
+                VersionStringUpdater.UpdateVersionString();
                 DebugMod.LogToConsole($"Set {name} to {GS.BoolData[name]}");
             }
 
@@ -90,7 +91,7 @@ namespace PlayerDataManager
                 {
                     Name = name,
                     Values = new[] { "True", "False", "None" },
-                    Saver = opt => GS.BoolData[name] = opt == 0 ? true : opt == 1 ? false : null,
+                    Saver = opt => { GS.BoolData[name] = opt == 0 ? true : opt == 1 ? false : null; VersionStringUpdater.UpdateVersionString(); },
                     Loader = () => GS.BoolData[name] == true ? 0 : GS.BoolData[name] == false ? 1 : 2
                 });
             }

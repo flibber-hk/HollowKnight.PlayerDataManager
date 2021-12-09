@@ -28,9 +28,12 @@ namespace PlayerDataManager
             ModHooks.GetPlayerBoolHook += OverrideBool;
 
             DebugMod.AddActionToKeyBindList(ApplyValuesToSave, "Save Overrides", "PD Bool Toggles");
+            DebugMod.CreateSimpleInfoPanel("PlayerDataManager.BoolMonitor", 200);
+            DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", null, null);
             foreach (string name in GS.BoolData.Keys)
             {
                 DebugMod.AddActionToKeyBindList(Toggle(name), $"{name}", "PD Bool Toggles");
+                DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", name, () => DebugMod.GetStringForBool(PlayerData.instance.GetBoolInternal(name)));
             }
         }
 

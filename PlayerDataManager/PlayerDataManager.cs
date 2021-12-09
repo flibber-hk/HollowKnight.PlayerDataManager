@@ -24,7 +24,6 @@ namespace PlayerDataManager
         public override void Initialize()
         {
             Log("Initializing Mod...");
-            typeof(DebugMod).ModInterop();
 
             ModHooks.GetPlayerBoolHook += OverrideBool;
 
@@ -98,12 +97,5 @@ namespace PlayerDataManager
 
             return menuEntries;
         }
-    }
-
-    [ModImportName("DebugMod")]
-    internal static class DebugMod
-    {
-        public static Action<Action, string, string> AddActionToKeyBindList = null;
-        public static Action<string> LogToConsole = null;
     }
 }

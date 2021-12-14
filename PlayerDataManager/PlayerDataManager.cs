@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Modding;
 using MonoMod.ModInterop;
+using UnityEngine.UI;
+using HutongGames.PlayMaker.Actions;
 
 namespace PlayerDataManager
 {
@@ -27,9 +29,12 @@ namespace PlayerDataManager
 
             ModHooks.GetPlayerBoolHook += OverrideBool;
 
-            DebugMod.AddActionToKeyBindList(ApplyValuesToSave, "Save Overrides", "PD Bool Toggles");
-            DebugMod.CreateSimpleInfoPanel("PlayerDataManager.BoolMonitor", 200);
-            DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", null, null);
+            if (GS.BoolData.Count > 0)
+            {
+                DebugMod.AddActionToKeyBindList(ApplyValuesToSave, "Save Overrides", "PD Bool Toggles");
+                DebugMod.CreateSimpleInfoPanel("PlayerDataManager.BoolMonitor", 200);
+                DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", null, null);
+            }
             foreach (string name in GS.BoolData.Keys)
             {
                 DebugMod.AddActionToKeyBindList(Toggle(name), $"{name}", "PD Bool Toggles");
@@ -69,6 +74,7 @@ namespace PlayerDataManager
                     GS.BoolData[name] = !PlayerData.instance.GetBoolInternal(name);
                 }
                 VersionStringUpdater.UpdateVersionString();
+                RefreshMenu();
                 DebugMod.LogToConsole($"Set {name} to {GS.BoolData[name]}");
             }
 
@@ -100,6 +106,14 @@ namespace PlayerDataManager
             }
 
             return menuEntries;
+        }
+        public void RefreshMenu()
+        {
+            MenuScreen screen = ModHooks.BuiltModMenuScreens[this];
+            foreach (MenuOptionHorizontal option in screen.gameObject.GetComponentsInChildren<MenuOptionHorizontal>())
+            {
+                option.menuSetting.RefreshValueFromGameSettings();
+            }
         }
     }
 }

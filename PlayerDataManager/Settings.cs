@@ -13,6 +13,9 @@ namespace PlayerDataManager
             [nameof(PlayerData.hasQuill)] = null,
             [nameof(PlayerData.unlockedCompletionRate)] = null
         };
-        public List<string> IntData = new();
+        public List<string> IntData = new()
+        {
+            nameof(PlayerData.killsBuzzer)
+        };
     }
 }

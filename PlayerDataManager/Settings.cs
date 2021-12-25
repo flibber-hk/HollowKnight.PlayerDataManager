@@ -8,6 +8,11 @@ namespace PlayerDataManager
 {
     public class GlobalSettings
     {
-        public Dictionary<string, bool?> BoolData = new();
+        public Dictionary<string, bool?> BoolData = new()
+        {
+            [nameof(PlayerData.hasQuill)] = null,
+            [nameof(PlayerData.unlockedCompletionRate)] = null
+        };
+        public List<string> IntData = new();
     }
 }

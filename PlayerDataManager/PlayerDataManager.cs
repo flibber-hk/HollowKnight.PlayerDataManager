@@ -21,7 +21,7 @@ namespace PlayerDataManager
             instance = this;
         }
         
-        public override string GetVersion() => $"0.1 ({GS.BoolData.Where(x => x.Value.HasValue).Count()}/{GS.BoolData.Count()})";
+        public override string GetVersion() => $"{GetType().Assembly.GetName().Version.ToString()} ({GS.BoolData.Where(x => x.Value.HasValue).Count()}/{GS.BoolData.Count()})";
 
         public override void Initialize()
         {
@@ -32,6 +32,9 @@ namespace PlayerDataManager
             if (GS.BoolData.Count > 0)
             {
                 DebugMod.AddActionToKeyBindList(ApplyValuesToSave, "Save Overrides", "PD Bool Toggles");
+            }
+            if (GS.BoolData.Count > 0 || GS.IntData.Count > 0)
+            {
                 DebugMod.CreateSimpleInfoPanel("PlayerDataManager.BoolMonitor", 200);
                 DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", null, null);
             }
@@ -39,6 +42,10 @@ namespace PlayerDataManager
             {
                 DebugMod.AddActionToKeyBindList(Toggle(name), $"{name}", "PD Bool Toggles");
                 DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", name, () => DebugMod.GetStringForBool(PlayerData.instance.GetBoolInternal(name)));
+            }
+            foreach (string name in GS.IntData)
+            {
+                DebugMod.AddInfoToSimplePanel("PlayerDataManager.BoolMonitor", name, () => PlayerData.instance.GetIntInternal(name).ToString());
             }
         }
 
